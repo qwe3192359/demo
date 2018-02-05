@@ -50,32 +50,36 @@
 
 </div>
 <script>
-
     function yyCalendar(obj) {
+        //日历组件构造函数
         function Calendar(obj) {
+            this.id = obj.id;
             //今日日期
             this.today = obj.date || new Date();
             //本日月份
             this.thisMonth = this.today.getMonth();
-            //本月第一天的日期
-            this.thisMonthFirstDay = this.today.setDate(1);
-            //日程上显示的第一天
-            this.firstDay = this.getFirstDay(this.thisMonthFirstDay);
+
+            //日历上显示的第一天的日期
+            this.firstDay = this.getFirstDay(this.today);
             //初始化
-            this.init('',this.firstDay)
+            this.init(this.firstDay,this.thisMonth);
         }
         //获取日历上显示的第一天
         Calendar.prototype.getFirstDay = function (date) {
-            var thisMonthFirstDay = new Date(date);  //当月第一天
-            var day = thisMonthFirstDay.getDate();      //当月第一天的天数var
-            var week = thisMonthFirstDay.getDay();      //当月第一天的星期
-            var firstDay = new Date(thisMonthFirstDay.setDate(day - week));
+            date = new Date(date);
+            date = date.setDate(1); //当月第一天的日期
+            var thisMonthFirstDay = new Date(date);     //当月第一天的日期
+            var day = thisMonthFirstDay.getDate();      //当月第一天的天数（1-31）
+            var week = thisMonthFirstDay.getDay();      //当月第一天是星期几（0-6,0是周日）
+            var firstDay = new Date(thisMonthFirstDay.setDate(day - week)); //日历上该显示的第一天的日期（周日是每周的第一天）
             return firstDay
         };
         //初始化
-        Calendar.prototype.init = function (id,firstDay) {
-            var today = this.today.getFullYear()+ '年' + (this.today.getMonth()+1) + '月';
-            var html = '<div class="title">'+ today +'</div><table>'+
+        Calendar.prototype.init = function (firstDay,month) {
+            console.log(month)
+            var today = this.today.getFullYear()+ '年' + (this.today.getMonth()+1) + '月';    //转换今日日期格式为YYYY年MM月
+            //加载今日日期及日历表头dom
+            var headDom = '<div class="title">'+ today +'</div><table>'+
                 '<thead>'+
                 '<tr>'+
                 '<td>日</td>'+
@@ -87,33 +91,50 @@
                 '<td>六</td>'+
                 '</tr>'+
                 '</thead>'+
-                '<tbody id="calendarCon">'+
+                '<tbody id="calendarBody">'+
                 '</tbody>'+
                 '</table>';
-            $('#calendar').html(html);
-            var con = '';
+            document.getElementById(this.id).innerHTML = headDom;
+            //加载日期dom
+            var bodyDom = '';
             for(var i = 0;i<6;i++){
-                var row = '';
+                //日历的行dom
+                var rowDom = '';
                 for( var j = 0;j<7;j++ ){
                     var day = firstDay.getDate();
-                    if(firstDay.getMonth() === this.thisMonth){
-                        row += '<td><span data-date="'+ this.dateFormat(firstDay) +'">'+ day +'</span></td>'
+                    if(firstDay.getMonth() === month){
+                        rowDom += '<td><span data-date="'+ this.dateFormat(firstDay) +'">'+ day +'</span></td>'
                     }
                     else{
-                        row += '<td><span class="text-gray" data-date="'+ this.dateFormat(firstDay) +'">'+ day +'</span></td>'
+                        rowDom += '<td><span class="text-gray" data-date="'+ this.dateFormat(firstDay) +'">'+ day +'</span></td>'
                     }
                     firstDay.setDate(firstDay.getDate()+1);
                 }
-                con += '<tr>'+ row +'</tr>';
+                bodyDom += '<tr>'+ rowDom +'</tr>';
             }
-            $('#calendarCon').html(con);
+            document.getElementById('calendarBody').innerHTML = bodyDom;
         };
-        //格式化日期
+        //转换日期格式为YYYY-MM-DD
         Calendar.prototype.dateFormat = function (date) {
             var year = date.getFullYear();
             var month = date.getMonth() + 1;
             var day = date.getDate();
             return year + '-' + month + '-' + day
+        };
+        //切换到下一月视图
+        Calendar.prototype.nextMonth = function () {
+            this.thisMonth = this.thisMonth + 1;
+            var nextDay = this.today.setMonth(this.thisMonth);
+            var firstDay = this.getFirstDay(nextDay);
+            this.init(firstDay,this.thisMonth);
+
+        };
+        //切换到上一月视图
+        Calendar.prototype.prevMonth = function () {
+            this.thisMonth = this.thisMonth - 1;
+            var nextDay = this.today.setMonth(this.thisMonth);
+            var firstDay = this.getFirstDay(nextDay);
+            this.init(firstDay,this.thisMonth);
         };
         return new Calendar(obj)
     }
