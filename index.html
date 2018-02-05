@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>日历</title>
+    <style type="text/css">
+        * {
+            margin: 0
+        }
+        #calendar{
+            padding: 20px;
+        }
+        #calendar .title{
+            padding: 10px;
+            text-align: center;
+        }
+        #calendar table{
+            border-collapse:collapse;
+            min-width: 300px;
+            width: 100%;
+        }
+        #calendar thead{
+            background: #e4393c;
+            color: #fff;
+        }
+        #calendar td{
+            border: 1px solid #eee;
+            text-align: center;
+            padding: 10px 0;
+        }
+        #calendar span::after{
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            background: #e4393c;
+            margin: 0 auto;
+            border-radius: 50%;
+        }
+        #calendar .text-gray{
+            color: #ccc;
+        }
+        #calendar .text-gray::after{
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+<div id="calendar">
+
+</div>
+<script>
+
+    function yyCalendar(obj) {
+        function Calendar(obj) {
+            //今日日期
+            this.today = obj.date || new Date();
+            //本日月份
+            this.thisMonth = this.today.getMonth();
+            //本月第一天的日期
+            this.thisMonthFirstDay = this.today.setDate(1);
+            //日程上显示的第一天
+            this.firstDay = this.getFirstDay(this.thisMonthFirstDay);
+            //初始化
+            this.init('',this.firstDay)
+        }
+        //获取日历上显示的第一天
+        Calendar.prototype.getFirstDay = function (date) {
+            var thisMonthFirstDay = new Date(date);  //当月第一天
+            var day = thisMonthFirstDay.getDate();      //当月第一天的天数var
+            var week = thisMonthFirstDay.getDay();      //当月第一天的星期
+            var firstDay = new Date(thisMonthFirstDay.setDate(day - week));
+            return firstDay
+        };
+        //初始化
+        Calendar.prototype.init = function (id,firstDay) {
+            var today = this.today.getFullYear()+ '年' + (this.today.getMonth()+1) + '月';
+            var html = '<div class="title">'+ today +'</div><table>'+
+                '<thead>'+
+                '<tr>'+
+                '<td>日</td>'+
+                '<td>一</td>'+
+                '<td>二</td>'+
+                '<td>三</td>'+
+                '<td>四</td>'+
+                '<td>五</td>'+
+                '<td>六</td>'+
+                '</tr>'+
+                '</thead>'+
+                '<tbody id="calendarCon">'+
+                '</tbody>'+
+                '</table>';
+            $('#calendar').html(html);
+            var con = '';
+            for(var i = 0;i<6;i++){
+                var row = '';
+                for( var j = 0;j<7;j++ ){
+                    var day = firstDay.getDate();
+                    if(firstDay.getMonth() === this.thisMonth){
+                        row += '<td><span data-date="'+ this.dateFormat(firstDay) +'">'+ day +'</span></td>'
+                    }
+                    else{
+                        row += '<td><span class="text-gray" data-date="'+ this.dateFormat(firstDay) +'">'+ day +'</span></td>'
+                    }
+                    firstDay.setDate(firstDay.getDate()+1);
+                }
+                con += '<tr>'+ row +'</tr>';
+            }
+            $('#calendarCon').html(con);
+        };
+        //格式化日期
+        Calendar.prototype.dateFormat = function (date) {
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            return year + '-' + month + '-' + day
+        };
+        return new Calendar(obj)
+    }
+    var calendar = yyCalendar({
+        id: 'calendar'
+    })
+
+
+
+
+</script>
+
+
+</body>
+</html>
