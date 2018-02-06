@@ -7,41 +7,52 @@
         * {
             margin: 0
         }
-        #calendar{
+        .calendar{
             padding: 20px;
         }
-        #calendar .title{
+        .calendar .title{
             padding: 10px;
             text-align: center;
+            font-size: 18px;
         }
-        #calendar table{
+        .calendar .title span{
+            color: #999;
+        }
+        .calendar table{
             border-collapse:collapse;
             min-width: 300px;
             width: 100%;
         }
-        #calendar thead{
+        .calendar thead{
             background: #e4393c;
             color: #fff;
         }
-        #calendar td{
+        .calendar td{
             border: 1px solid #eee;
             text-align: center;
-            padding: 10px 0;
+            padding: 16px 0;
+            position: relative;
         }
-        #calendar span::after{
+        .calendar .bg-gray{
+            background: #f7f7f7;
+        }
+        .calendar .text-red{
+            color: #e4393c;
+        }
+        .calendar .text-red::after{
+            position: absolute;
+            left: 50%;
+            margin-left: -4px;
+            bottom: 8px;
             content: '';
             display: block;
             width: 8px;
             height: 8px;
             background: #e4393c;
-            margin: 0 auto;
             border-radius: 50%;
         }
-        #calendar .text-gray{
+        .calendar .text-gray{
             color: #ccc;
-        }
-        #calendar .text-gray::after{
-            background: #ccc;
         }
     </style>
 </head>
@@ -55,14 +66,16 @@
         function Calendar(obj) {
             this.id = obj.id;
             //今日日期
-            this.today = obj.date || new Date();
-            //本日月份
-            this.thisMonth = this.today.getMonth();
+            this.today = new Date();
 
+            //当前视图显示的年份
+            this.year = this.today.getFullYear();
+            //当前视图显示的月份
+            this.month = this.today.getMonth();
             //日历上显示的第一天的日期
             this.firstDay = this.getFirstDay(this.today);
             //初始化
-            this.init(this.firstDay,this.thisMonth);
+            this.update(this.firstDay,this.month);
         }
         //获取日历上显示的第一天
         Calendar.prototype.getFirstDay = function (date) {
@@ -76,10 +89,9 @@
         };
         //初始化
         Calendar.prototype.init = function (firstDay,month) {
-            console.log(month)
-            var today = this.today.getFullYear()+ '年' + (this.today.getMonth()+1) + '月';    //转换今日日期格式为YYYY年MM月
+            var today = this.year + '年' + (month+1) + '月';    //转换今日日期格式为YYYY年MM月
             //加载今日日期及日历表头dom
-            var headDom = '<div class="title">'+ today +'</div><table>'+
+            var headDom = '<div class="calendar"><div class="title"><span id="prevMonth"> < </span>'+ today +'<span id="nextMonth"> > </span></div><table>'+
                 '<thead>'+
                 '<tr>'+
                 '<td>日</td>'+
@@ -93,7 +105,7 @@
                 '</thead>'+
                 '<tbody id="calendarBody">'+
                 '</tbody>'+
-                '</table>';
+                '</table></div>';
             document.getElementById(this.id).innerHTML = headDom;
             //加载日期dom
             var bodyDom = '';
@@ -102,17 +114,26 @@
                 var rowDom = '';
                 for( var j = 0;j<7;j++ ){
                     var day = firstDay.getDate();
-                    if(firstDay.getMonth() === month){
-                        rowDom += '<td><span data-date="'+ this.dateFormat(firstDay) +'">'+ day +'</span></td>'
+                    if( firstDay.getMonth() === this.today.getMonth() && day === this.today.getDate() ){
+                        rowDom += '<td data-date="'+ this.dateFormat(firstDay) +'" class="bg-gray"><span class="text-red">'+ day +'</span></td>'
+                    }
+                    else if( firstDay.getMonth() === month ){
+                        rowDom += '<td data-date="'+ this.dateFormat(firstDay) +'"><span class="">'+ day +'</span></td>'
                     }
                     else{
-                        rowDom += '<td><span class="text-gray" data-date="'+ this.dateFormat(firstDay) +'">'+ day +'</span></td>'
+                        rowDom += '<td data-date="'+ this.dateFormat(firstDay) +'"><span class="text-gray" >'+ day +'</span></td>'
                     }
                     firstDay.setDate(firstDay.getDate()+1);
                 }
                 bodyDom += '<tr>'+ rowDom +'</tr>';
             }
             document.getElementById('calendarBody').innerHTML = bodyDom;
+            document.getElementById('prevMonth').onclick = () => {
+                this.prevMonth()
+            };
+            document.getElementById('nextMonth').onclick = () => {
+                this.nextMonth()
+            };
         };
         //转换日期格式为YYYY-MM-DD
         Calendar.prototype.dateFormat = function (date) {
@@ -123,18 +144,34 @@
         };
         //切换到下一月视图
         Calendar.prototype.nextMonth = function () {
-            this.thisMonth = this.thisMonth + 1;
-            var nextDay = this.today.setMonth(this.thisMonth);
-            var firstDay = this.getFirstDay(nextDay);
-            this.init(firstDay,this.thisMonth);
+            if(this.month === 11){
+                this.month = 0;
+                this.year += 1;
+            }
+            else{
+                this.month += 1;
 
+            }
+            this.update();
         };
         //切换到上一月视图
         Calendar.prototype.prevMonth = function () {
-            this.thisMonth = this.thisMonth - 1;
-            var nextDay = this.today.setMonth(this.thisMonth);
+            if(this.month === 0){
+                this.month = 11;
+                this.year -= 1
+            }
+            else{
+                this.month -= 1;
+
+            }
+            this.update();
+        };
+        //更新视图
+        Calendar.prototype.update = function () {
+            var today = new Date(this.today);
+            var nextDay = today.setMonth(this.month);
             var firstDay = this.getFirstDay(nextDay);
-            this.init(firstDay,this.thisMonth);
+            this.init(firstDay,this.month);
         };
         return new Calendar(obj)
     }
