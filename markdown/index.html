@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>简易markdown文件解析器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .wrap {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .edit-wrap {
+            width: 50%;
+            padding-left: 50px;
+            padding-top: 100px;
+            min-height: 100vh;
+            overflow-y: scroll;
+            overflow-x: auto;
+            float: left;
+        }
+
+        .show-wrap {
+            width: 50%;
+            padding-left: 50px;
+            padding-top: 100px;
+            background: #fcfaf2;
+            min-height: 100vh;
+            float: left;
+        }
+
+        div {
+            outline: none;
+        }
+
+        html {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0 0 15px 0;
+        }
+
+        h1 {
+            font-size: 26px;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        h3 {
+            font-size: 22px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        h5 {
+            font-size: 18px;
+        }
+
+        h6 {
+            font-size: 16px;
+        }
+
+        ul, ol {
+            padding: 0;
+            margin: 0 0 10px 25px;
+        }
+
+        .quote {
+            padding: 20px;
+            margin-bottom: 25px;
+            background-color: whitesmoke;
+            border-left: 6px solid #b4b4b4;
+        }
+
+        code {
+            padding: 2px 4px;
+            background-color: #f6f6f6;
+            border: none;
+            color: #657b83;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+
+        .code-block {
+            display: block;
+            padding: 10px;
+            margin: 0 0 10px;
+            font-size: 13px;
+            line-height: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            background: #f6f6f6;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3194d0;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="edit-wrap">
+        <div id="con" contenteditable="true">
+            <div># 一级标题</div>
+            <div>## 二级标题</div>
+            <div>### 三级标题</div>
+        </div>
+
+    </div>
+    <div class="show-wrap" id="show-wrap">
+        <h1>一级标题</h1>
+        <h2>二级标题</h2>
+        <h3>三级标题</h3>
+    </div>
+</div>
+
+
+<script>
+
+    let showCon = document.getElementById('show-wrap');
+    //sliceCon();
+    document.getElementById('con').onkeyup = sliceCon;
+    //使用换行符切割字符串
+    function sliceCon() {
+        showCon.innerHTML = '';
+        let list = document.getElementById('con').innerText.split(/[\n\r]/);
+        for (let i = 0; i < list.length; i++) {
+            list[i] = replace(list[i]);
+            createElement(list[i]);
+
+        }
+    }
+    //替换可以被嵌套的元素链接、粗体、斜体、代码块
+    function replace(list) {
+        let RegExpList = [
+            {
+                title: 'hr',
+                tag: '',
+                regexp: /^\*{3}/,
+                class: ''
+            },
+            {
+                title: 'a',
+                tag: 'a',
+                regexp: /^!\[[\s\S]*?\]\([\s\S]*?\)/g,
+                class: ''
+            },
+            {
+                title: 'b',
+                tag: 'b',
+                regexp: /\*\*[\S]*?\*\*/g,
+                delSymbol: /\*\*/g,
+                class: ''
+            },
+            {
+                title: 'i',
+                tag: 'i',
+                regexp: /\*[\S]*?\*/g,
+                delSymbol: /\*/g,
+                class: ''
+            },
+            {
+                title: 'code block',
+                tag: 'div',
+                regexp: /\`{3}[^\`]+\`{3}?/g,
+                delSymbol: /\`\`\`/g,
+                class: 'code-block'
+            },
+            {
+                title: 'code',
+                tag: 'code',
+                regexp: /\`[^\`]+?\`/g,
+                delSymbol: /\`/g,
+                class: ''
+            },
+            {
+                title: 'quote',
+                tag: 'div',
+                regexp: /^\>\s/,
+                delSymbol: /\>/g,
+                class: 'quote'
+            },
+            {
+                title: 'h6',
+                tag: 'h6',
+                regexp: /^#{6}\s[\s\S]*/,
+                delSymbol: /^#{6}\s/,
+                class: ''
+            },
+            {
+                title: 'h5',
+                tag: 'h5',
+                regexp: /^#{5}\s[\s\S]*/,
+                delSymbol: /^#{5}\s/,
+                class: ''
+            },
+            {
+                title: 'h4',
+                tag: 'h4',
+                regexp: /^#{4}\s[\s\S]*/,
+                delSymbol: /^#{4}\s/,
+                class: ''
+            },
+            {
+                title: 'h3',
+                tag: 'h3',
+                regexp: /^#{3}\s[\s\S]*/,
+                delSymbol: /^#{3}\s/,
+                class: ''
+            },
+            {
+                title: 'h2',
+                tag: 'h2',
+                regexp: /^#{2}\s[\s\S]*/,
+                delSymbol: /^#{2}\s/,
+                class: ''
+            },
+            {
+                title: 'h1',
+                tag: 'h1',
+                regexp: /^#\s[\s\S]*/,
+                delSymbol: /^#\s/,
+                class: ''
+            },
+            {
+                title: 'ol',
+                tag: 'li',
+                regexp: /^[\-\*]\s[\s\S]*/,
+                delSymbol: /^[\-\*]\s/g,
+                class: ''
+            },
+            {
+                title: 'ul',
+                tag: 'li',
+                regexp: /^\d\s[\s\S]*/,
+                delSymbol: /^\d\s/g,
+                class: ''
+            },
+
+            {
+                title: 'img',
+                tag: '',
+                regexp: /^\[[\s\S]*?\]\([\s\S]*?\)/,
+                delSymbol: /1/g,
+                class: ''
+            }
+        ];
+        for (let i in RegExpList) {
+            list = list.replace(RegExpList[i].regexp, function (con) {
+                if(RegExpList[i].title === 'hr'){
+                    return '<hr/>'
+                }
+                con = con.replace(RegExpList[i].delSymbol, '');
+                return '<' + RegExpList[i].tag + ' class="' + RegExpList[i].class + '">' + con + '</' + RegExpList[i].tag + '>'
+            })
+        }
+        return list
+    }
+
+    //添加dom
+    function createElement(text) {
+            showCon.innerHTML += text;
+            console.log(text)
+    }
+</script>
+
+
+</body>
+</html>
