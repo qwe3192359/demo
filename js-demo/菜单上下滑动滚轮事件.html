@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>滑轮事件</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0
+        }
+        #slide {
+            position: relative;
+            padding: 100px 0;
+        }
+        .slide-wrap {
+            height: 500px;
+            width: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        .slide-con {
+            background-color: #eee;
+            text-align: center;
+            list-style: none;
+            padding: 0;
+
+        }
+        .slide-con li {
+            line-height: 100px;
+        }
+        .slide-btn {
+            display: none;
+            position: absolute;
+            background-color: #999;
+            line-height: 100px;
+            border: 0;
+            padding: 0;
+            width: 200px;
+        }
+        .slide-btn-bottom {
+            bottom: 0;
+        }
+        .slide-btn-top {
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div id="slide">
+    <button class="slide-btn slide-btn-top" type="button">上</button>
+    <div class="slide-wrap">
+        <ul class="slide-con">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+            <li>11</li>
+            <li>12</li>
+            <li>13</li>
+            <li>14</li>
+            <li>15</li>
+            <li>16</li>
+        </ul>
+    </div>
+    <button class="slide-btn slide-btn-bottom" type="button">下</button>
+</div>
+
+
+<script type="text/javascript">
+    (function () {
+        var $con = $('.slide-con');
+        var $topBtn = $('.slide-btn-top');
+        var $bottomBtn = $('.slide-btn-bottom');
+        var wrapHeight = $('.slide-wrap').height();
+        var conHeight = $con.height();
+        var listHeight = $('.slide-con li').height();
+        var top = 0;
+        //初始显示下翻
+        if (conHeight > wrapHeight) {
+            $bottomBtn.show()
+        }
+        //下翻事件
+        $bottomBtn.click(function () {
+            //下翻的距离
+            top = top - wrapHeight;
+            showSlide()
+        });
+        //上翻事件
+        $topBtn.click(function () {
+            //上翻的距离
+            top = top + wrapHeight;
+            showSlide()
+        });
+        //滚轮事件
+        $('.slide-con').on("mousewheel DOMMouseScroll", function (e) {
+            var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
+                (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
+
+            if (delta > 0) {
+                // 向上滚
+                top = top + listHeight;
+            } else if (delta < 0) {
+                // 向下滚
+                top = top - listHeight;
+            }
+            showSlide(true)
+        });
+        //内容滚动
+        function showSlide(speed) {
+            //临界值
+            if (top >= 0) {
+                top = 0;
+            }
+            else if (top <=  wrapHeight - conHeight ) {
+                top = wrapHeight - conHeight;
+            }
+            //内容滚动
+            if(speed){
+                $con.animate({'margin-top': top}, 100);
+            }
+            else{
+                $con.animate({'margin-top': top}, 1000);
+            }
+
+            //翻到最上面，隐藏上翻
+            if (top === 0) {
+                $topBtn.fadeOut(300);
+            }
+            //翻到最下面，隐藏下翻
+            else if (-top === (conHeight - wrapHeight)) {
+                $topBtn.fadeIn(300);
+                $bottomBtn.fadeOut(300);
+            }
+            //显示上翻、下翻
+            else {
+                $topBtn.fadeIn(300);
+                $bottomBtn.fadeIn(300);
+            }
+        }
+    }())
+</script>
+</body>
+</html>

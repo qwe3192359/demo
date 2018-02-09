@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>图片加载出错加载默认图片</title>
+
+</head>
+<body>
+
+<img style="width:500px" alt="无法记载图片" src="http://www.cn" onerror="nofind();" />
+<script type="text/JavaScript">
+    function nofind(){
+        var img=event.srcElement;
+        img.src="images/1.jpg";
+        img.onerror=null; //控制不要一直跳动
+    }
+</script>
+</body>
+</html>
+
+
+ 

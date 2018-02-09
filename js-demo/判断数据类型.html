@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>判断数据类型</title>
+</head>
+<body>
+
+<script>
+    function isType(val) {
+        if(arguments.length === 0){
+            return '没有传值'
+        }
+        else if(typeof val === 'number'){
+            if(val !== val){
+                //也可以使用isFinite()来判断一个值是否是数字，NaN和Infinity以及其他非数字都为false
+                //NaN是唯一一个不全等于自己的值NaN === NaN结果是false
+                return 'NaN'
+            }
+            else if(isFinite(val) === false && val === val){
+                return 'Infinity'
+            }
+            else if( isFinite(val) === true ){
+                return 'number'
+            }
+        }
+        else if( typeof val === 'string'){
+            return 'string'
+        }
+        else if( typeof val === 'boolean' ){
+            return 'boolean'
+        }
+        else if( typeof val === 'function' ){
+            return 'function'
+        }
+        else if( typeof val === 'undefined' ){
+            return 'undefined'
+        }
+        else if( typeof val === 'object' ){
+            if(val.constructor === Array){
+                //或者Object.prototype.toString.apply(val) === '[object Array]'
+                return 'array'
+            }
+            if(val){
+                //可以用 val && typeof val === 'object'来判断是否是对象
+                return 'object'
+            }
+            else{
+                //typeof null是object，但是null是假值
+                return 'null'
+            }
+        }
+    }
+</script>
+</body>
+</html>

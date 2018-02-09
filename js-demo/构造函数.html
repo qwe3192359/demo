@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>JS面向对象编程</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+    //    一、生成实例对象的原始模式
+    //    var cat1 = {}; // 创建一个空对象
+    //    cat1.name = "大毛"; // 按照原型对象的属性赋值
+    //    cat1.color = "黄色";
+    //    var cat2 = {};
+    //    cat2.name = "二毛";
+    //    cat2.color = "黑色";
+    //    console.log(cat1);
+    //    二、 原始模式的改进
+    //    function Cat(name,color) {
+    //        return {
+    //            name:name,
+    //            color:color
+    //        }
+    //    }
+    //    var cat1 = Cat("大毛","黄色");
+    //    var cat2 = Cat("二毛","黑色");
+    //    console.log(cat1)
+    //三、 构造函数模式
+    function Cat(name, color) {
+        this.name = name;
+        this.color = color;
+    }
+    //Javascript规定，每一个构造函数都有一个prototype属性，指向另一个对象。这个对象的所有属性和方法，都会被构造函数的实例继承。
+    //这意味着，我们可以把那些不变的属性和方法，直接定义在prototype对象上。
+    //    Cat.prototype.type = "猫科动物";
+    //    var cat1 = new Cat("大毛","黄色");
+    //    var cat2 = new Cat("二毛","黑色");
+    //    console.log(cat1);
+    //    console.log(cat1.constructor);
+    //    console.log(cat1.prototype);
+    //    for(var prop in cat1) { console.log("cat1["+prop+"]="+cat1[prop]); }
+
+    //构造函数的继承
+    function Animal() {
+        this.species = "动物";
+    }
+    function Cat(name,color){
+        Animal.apply(this, arguments);
+        this.name = name;
+        this.color = color;
+    }
+    var cat1 = new Cat("大毛","黄色");
+    console.log(cat1); // 动物
+    $(window).load()
+</script>
+</html>

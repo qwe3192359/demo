@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IP输入框</title>
+	<style type="text/css">
+		.box{
+			width: 150px;
+			background-color: #eee;
+			box-sizing: border-box;
+			border: 1px solid transparent;
+		}
+		input{
+			width: 30px;
+			line-height: 30px;
+			display: inline-block;
+			border:0;
+			background-color: transparent;
+			text-align: center;
+		}
+		input:focus{
+			border:0;
+			outline: none;
+		}
+	</style>
+</head>
+
+<body>
+<div id="box" class="box">
+	<input type="text" maxlength="3" contenteditable="true" name="0">.
+	<input type="text" maxlength="3" contenteditable="true" name="1">.
+	<input type="text" maxlength="3" contenteditable="true" name="2">.
+	<input type="text" maxlength="3" contenteditable="true" name="3">
+</div>
+
+<script>
+	var box = document.getElementById('box');
+		list = document.getElementsByTagName('input');
+	for(var i=0;i<list.length;i++){
+		list[i].onfocus = function () {
+			box.style['border-color'] = '#ccc';
+		};
+		list[i].onblur = function () {
+			box.style['border-color'] = 'transparent';
+		};
+		list[i].onkeyup = function(){
+			var value = this.value;
+			if(value.length === 3 && this.name < 3){
+				var num = Number(this.name)+1;
+				list[num].focus()
+			}
+		}
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>  
+<html>  
+<head> 
+	<meta charset="utf-8">  
+	<title>提取url参数</title>
+</head>      
+<body>  
+
+	<script type="text/javascript">
+        //获取url参数
+        function request(url,paras) {
+            //提取参数列表对象
+        	var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+        	var paraObj = {};
+        	for (var i = 0; i < paraString.length; i++) {
+        		var j = paraString[i];
+        		paraObj[j.split('=')[0]] = j.split('=')[1];
+        	}
+        	//返回参数对应值
+        	var returnValue = paraObj[paras];
+        	if (typeof (returnValue) === "undefined") {
+        		return "";
+        	} else {
+        		return returnValue;
+        	}
+        }
+        var url = "TbProFil?proNo=201&taskId=1099&appNo=3363";
+        var id = request(url,"taskId");
+        console.log(id);
+    </script>
+
+</body>  
+
+</html> 
