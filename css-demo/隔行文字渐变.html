@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .wrap{
+            position: relative;
+            width: 100px;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background: linear-gradient(blue 50%, white 50%);
+            background-size:100% 4em;
+
+            line-height: 2em;
+            color: transparent;
+        }
+        .box{
+            position: absolute;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+            color: #000;
+            width: 100%;
+        }
+        .box1{
+            height: 4em;
+            z-index: 9;
+            background: linear-gradient(blue 50%, white 50%);
+            background-size:100% 4em;
+        }
+        .box2{
+            top: -6em;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间
+    <div class="box box1">
+        活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间
+    </div>
+    <div class="box box2">
+        活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间活动空间
+    </div>
+</div>
+<script>
+    //需计算的全局参数
+    //行高2em，wrap的高度，点击的位置是第几行
+    //1.计算点击位置的高度在第几行（wrap的高度/2em是总行数），例如是第三行
+    //box1的高度就是3*行高
+    //box2的top为3*行高
+    //wrap的高度为初始高度-3*行高
+</script>
+</body>
+</html>
