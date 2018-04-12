@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>图片上传预览裁剪</title>
     <link href="https://cdn.bootcss.com/jquery-jcrop/0.9.13/css/jquery.Jcrop.min.css" rel="stylesheet">
-    <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery-jcrop/0.9.13/js/jquery.Jcrop.min.js"></script>
     <style type="text/css">
         .wrap {
@@ -14,30 +14,31 @@
             border: 1px solid #ccc;
             overflow: hidden;
         }
-        .title{
+
+        .title {
             border-bottom: 1px solid #eee;
             padding-bottom: 20px;
             margin: 0;
             margin-bottom: 20px;
             font-weight: 400;
         }
+
         .upload {
             float: left;
         }
 
         .uploadImg-wrap {
             position: relative;
-            background: #e2e2e2;
         }
-
 
         .preview {
-            float: left;
         }
-        .preview-list{
+
+        .preview-list {
             display: inline-block;
-            padding-left: 20px;
+            padding-left: 50px;
         }
+
         .preview-img-box {
             width: 80px;
             height: 80px;
@@ -45,14 +46,15 @@
             overflow: hidden;
         }
 
-
-        .btn-box{
+        .btn-box {
             padding: 20px 0;
             font-size: 12px;
             overflow: hidden;
         }
-        .btn-box .btn{
+
+        .btn {
             width: 80px;
+            height: 32px;
             line-height: 32px;
             background: #e4393c;
             color: #fff;
@@ -61,8 +63,20 @@
             outline: none;
             padding: 0;
             font-size: 12px;
+            box-sizing: border-box;
         }
-        .file-box{
+
+        .btn-default {
+            background: #f9f9f9;
+            border: 1px solid #ccc;
+            color: #666;
+        }
+
+        .btn-default:hover {
+            background: #e0e0e0;
+        }
+
+        .file-box {
             margin-left: 20px;
             float: left;
             position: relative;
@@ -70,7 +84,8 @@
             height: 32px;
             line-height: 32px;
         }
-        .file-box input{
+
+        .file-box input {
             position: absolute;
             left: 0;
             top: 0;
@@ -78,7 +93,8 @@
             width: 100%;
             height: 100%;
         }
-        .file-box span{
+
+        .file-box span {
             position: absolute;
             left: 0;
             top: 0;
@@ -86,46 +102,75 @@
             height: 100%;
             text-align: center;
         }
+
+        .none {
+            display: none;
+        }
+
+        .uimg {
+            width: 80px;
+            height: 80px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .uimg::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: url("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1373411777,3992091759&fm=27&gp=0.jpg") 100% / cover;
+        }
     </style>
 </head>
 <body>
 <div class="wrap">
     <h4 class="title">头像设置</h4>
     <div class="upload">
-        <div class="uploadImg-wrap">
-            <img id="img" class="uploadImg img-list" src="">
+        <div class="uploadImg-wrap none">
+            <img id="img" class="uploadImg img-list">
         </div>
         <div class="btn-box">
-            <button class="btn" id="save">保存头像</button>
+            <button class="btn none" id="saveBtn">保存头像</button>
             <div class="file-box">
-                <button class="btn">选择文件</button>
-                <input type="file" name="file" id="uploadImgBtn">
+                <button class="btn btn-default" id="selectBtn">选择图片</button>
+                <input type="file" name="file" id="uploadImgBtn" accept="image/jpeg, image/png">
             </div>
         </div>
-
     </div>
-    <div class="preview">
-        <div class="preview-list">
-            <p>头像预览</p>
-            <div class="preview-img-box">
-                <img  class="previewImg img-list">
+    <div style="float: left;padding-left: 100px">
+        <div class="preview none">
+            <div class="preview-list">
+                <p>头像预览</p>
+                <div class="preview-img-box">
+                    <img class="previewImg img-list ">
+                </div>
+            </div>
+            <div class="preview-list">
+                <p>头像预览</p>
+                <div class="preview-img-box" style="border-radius: 50%">
+                    <img class="previewImg img-list ">
+                </div>
             </div>
         </div>
-        <div class="preview-list">
-            <p>头像预览</p>
-            <div class="preview-img-box" style="border-radius: 50%">
-                <img class="previewImg img-list">
+        <div>
+            <div class="preview-list">
+                <p>当前头像</p>
+                <a download="name"><img class="uimg" alt="1"></a>
             </div>
         </div>
     </div>
 </div>
 
-
+<!--<img style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=E:\UI\设计\1213.jpg">-->
 <script>
-    //保存jcrop的api接口
-    var jcropApi;
-    var uploadData;
-    $('#img').Jcrop({
+    //ie需要用滤镜去实现预览图片
+    //style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=E:\UI\设计\1213.jpg"
+
+    //头像裁剪
+    var jcropApi = $.Jcrop('#img', {
         bgColor: '#ccc',
         boxWidth: '400',
         boxHeight: '300',
@@ -151,53 +196,72 @@
                 width: width
             });
         }
-    }, function () {
-        jcropApi = this;
     });
+    //保存jcrop的api接口
+    var uploadData; //头像裁剪数据
+
     //预览上传图片
     $('#uploadImgBtn').change(function () {
-        console.log($(this).val());
-
         var $img = $(".img-list");
-        var imgUrl;
-        if (this.files && this.files[0]) {
-            imgUrl = window.URL.createObjectURL(this.files[0]);
-            //imgObjPreview.src = this.files[0].getAsDataURL();
-            //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+        var file = this.files[0];
+        if (file && /\/jpg$|\/jpeg$|\/png$/g.test(file.type)) {
+
+            //FileReader API实现本地图片预览
+            var reader = new FileReader();
+            //result属性中将包含一个data: URL格式的字符串以表示所读取文件的内容。
+            reader.readAsDataURL(this.files[0]);
+            //result属性中将包含一个字符串以表示所读取的文件内容。
+            //reader.readAsText(this.files[0]);
+            reader.onload = function (evt) {
+                var imgUrl = evt.target.result;
+                console.log(evt)
+                $('.uimg').attr('src', imgUrl).parent().attr('href', imgUrl);
+
+            };
+
+            //createObjectURL()实现本地图片预览
+            var imgUrl = window.URL.createObjectURL(this.files[0]);
+            //更改裁剪图片、预览图片链接
             $img.attr('src', imgUrl);
+
+
+            //更改裁剪插件图片链接
+            jcropApi.setImage(imgUrl);
+            //添加裁剪缩放框
+            $(".uploadImg").load(function () {
+                jcropApi.setSelect([100, 100, 200, 200]);
+            });
+            //显示头像预览、保存头像按钮
+            showPreview()
+
         }
         else {
-            //IE下，使用滤镜
-            this.select();
-            var imgSrc = document.selection.createRange().text;
-            var localImagId = document.getElementById("localImag"); //必须设置初始大小
-            localImagId.style.width = "150px";
-            localImagId.style.height = "180px";
-            //图片异常的捕捉，防止用户修改后缀来伪造图片
-            try {
-                localImagId.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
-                localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
-            }
-            catch (e) {
-                alert("您上传的图片格式不正确，请重新选择!");
-                return false;
-            }
-            imgObjPreview.style.display = 'none';
-            document.selection.empty();
+            alert('只能上传jpg和png格式的图片');
+            return
         }
-
-        //更改裁剪图片链接
-        jcropApi.setImage(imgUrl);
-        //更改缩放框
-        $(".uploadImg").load(function () {
-            jcropApi.setSelect([100, 100, 200, 200]);
-        });
-
+    });
+    //显示头像预览和保存头像按钮
+    function showPreview() {
+        $('.none').show();
+        $('#selectBtn').text('重新选择')
+    }
+    //上传图片
+    $('#saveBtn').click(function () {
 
     });
-    //上传图片
-    $('#save').click(function () {
-        
+    //加载当前头像
+    $.ajax({
+        url: '11',
+        success: function (data) {
+            var url = data.url;
+            if (data) {
+                $('.uimg').attr('src', 'url');
+            }
+            else {
+
+            }
+
+        }
     })
 
 
