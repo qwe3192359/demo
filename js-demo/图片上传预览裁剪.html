@@ -29,7 +29,14 @@
 
         .uploadImg-wrap {
             position: relative;
+            background: #eee;
+            width: 400px;
+            height: 300px;
         }
+        .uploadImg-wrap img{
+            object-fit: contain;
+        }
+
 
         .preview {
         }
@@ -83,6 +90,7 @@
             width: 80px;
             height: 32px;
             line-height: 32px;
+            overflow: hidden;
         }
 
         .file-box input {
@@ -202,6 +210,11 @@
 
     //预览上传图片
     $('#uploadImgBtn').change(function () {
+        console.log(this.files);
+        console.log(this.value);
+        if(!this.files && this.value){
+            console.log('浏览器版本太低')
+        }
         var $img = $(".img-list");
         var file = this.files[0];
         if (file && /\/jpg$|\/jpeg$|\/png$/g.test(file.type)) {
