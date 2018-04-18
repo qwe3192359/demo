@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>404</title>
+	<style type="text/css">
+		.body{
+
+		}
+		.wrap-404{
+			width: 600px;
+			height: 400px;
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+			text-align: center;
+			font-family: '微软雅黑';
+		}
+		h3.title{
+			font-size: 24px;
+		}
+		p.con{
+			font-size: 16px;
+		}
+
+		.font-red{
+			font-size: 120px;
+			color: #a3000f;
+			text-align: left;
+			line-height: 1;
+			margin: 0;
+			padding-left: 96px;
+			font-weight: bold;
+			background-image: linear-gradient(200deg, #eb000b 59%, #a3000f 60%);
+			-webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+		}
+		.shadow{
+			width: 400px;
+		    height: 40px;
+		    background: radial-gradient(rgba(211,211,211,1),rgba(255,255,255,.1), rgba(255,255,255,0));
+		    border-radius: 200px / 20px; 
+		}
+		.relative{
+			position: relative;
+		}
+		.absolute{
+			position: absolute;
+			width: 500px;
+			height: 75px;
+			transform:rotate(15deg);
+			background-color: rgba(255,255,255, .2);
+			top: 0;
+			left: 0;
+			z-index: 10；
+		}
+		.font-red-2{
+			font-size: 120px;
+			color: #a3000f;
+			text-align: left;
+			line-height: 1;
+			margin: 0;
+			padding-left: 96px;
+			font-weight: bold;
+		}
+		p+p{
+			color: #eb000b !important;
+			clip-path: polygon(0 0, 100% 0%, 68% 100%, 0 0);: 
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap-404">
+		<div >
+			<img src="images/404.jpg">
+			<div class="relative">
+				<p class="font-red">404</p>
+				<div class="shadow"></div>
+			</div>
+			<div class="relative">
+				<p class="font-red-2">404</p>
+				<div class="shadow"></div>
+				<div class="absolute"></div>
+			</div>
+			<div class="relative">
+				<p class="font-red-2" style="position: absolute;">404</p>
+				<p class="font-red-2" style="">404</p>
+				<div class="shadow"></div>
+			</div>
+			<div class="error">
+				<p></p>
+				<p></p>
+			</div>
+		</div>
+		<div>
+			<h3 class="title">SORRY 您访问的页面丢失了</h3>
+			<p class="con">请记录当前错误页，及时联系系统管理员！</p>
+		</div>
+	</div>
+</body>
+</html>
