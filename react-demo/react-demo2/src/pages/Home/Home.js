@@ -20,7 +20,19 @@ class Home extends Component {
                     </div>
                 </div>
                 <div className="date">
-
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>日</td>
+                                <td>一</td>
+                                <td>二</td>
+                                <td>三</td>
+                                <td>四</td>
+                                <td>五</td>
+                                <td>六</td>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         );
