@@ -5,10 +5,51 @@
     <title>组件化</title>
 </head>
 <body>
-
+<span id="box"></span>
+<span id="box2"></span>
 
 <script>
+    const createDOMFromString = (domString) => {
+        const div = document.createElement('div')
+        div.innerHTML = domString
+        return div
+    };
+class LikeButton{
+    constructor () {
+        this.state = { isLiked: false }
+    }
 
+    setState (state) {
+        const oldEl = this.el
+        this.state = state
+        this.el = this.render()
+        if (this.onStateChange) this.onStateChange(oldEl, this.el)
+    }
+
+    changeLikeText () {
+        this.setState({
+            isLiked: !this.state.isLiked
+        })
+    }
+    render(){
+        this.el = createDOMFromString(`
+        <button class='like-btn'>
+          <span class='like-text'>${this.state.isLiked ? '取消' : '点赞'}</span>
+          <span>👍</span>
+        </button>
+      `)
+        this.el.addEventListener('click', this.changeLikeText.bind(this), false)
+        return this.el
+    }
+}
+
+let likeButton1 = new LikeButton();
+let likeButton12 = new LikeButton();
+
+let box = document.getElementById('box');
+let box2 = document.getElementById('box2');
+box.appendChild( likeButton1.render() );
+box2.appendChild( likeButton12.render() );
 </script>
 </body>
 </html>
