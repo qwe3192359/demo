@@ -5,3 +5,11 @@
     color: #fff;
     justify-content: space-between;
 }
+.date{
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+.date td{
+    border: 1px solid #eee;
+}

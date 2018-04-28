@@ -4,14 +4,17 @@ import './Header.css';
 class Header extends Component {
   render() {
     return (
-        <header className="header">
-          <ul>
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>4</li>
-          </ul>
-        </header>
+        <div className="head">
+            <div>
+                菜单按钮
+            </div>
+            <div>
+                5月
+            </div>
+            <div>
+                今天
+            </div>
+        </div>
     );
   }
 }
