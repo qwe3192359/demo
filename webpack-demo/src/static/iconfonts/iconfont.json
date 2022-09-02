@@ -1,0 +1,177 @@
+{
+  "id": "3516406",
+  "name": "e客营销平台",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "10030446",
+      "name": "ic_联系",
+      "font_class": "ic_lianxi",
+      "unicode": "e68f",
+      "unicode_decimal": 59023
+    },
+    {
+      "icon_id": "22032561",
+      "name": "企业微信",
+      "font_class": "qiyeweixin",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "18166712",
+      "name": "快手",
+      "font_class": "kuaishou",
+      "unicode": "e8dc",
+      "unicode_decimal": 59612
+    },
+    {
+      "icon_id": "8349148",
+      "name": "右箭头-填充",
+      "font_class": "youjiantou-tianchong",
+      "unicode": "e73d",
+      "unicode_decimal": 59197
+    },
+    {
+      "icon_id": "18166694",
+      "name": "抖音",
+      "font_class": "douyin",
+      "unicode": "e8db",
+      "unicode_decimal": 59611
+    },
+    {
+      "icon_id": "30175723",
+      "name": "Chevron-down",
+      "font_class": "Chevron-down",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "30175724",
+      "name": "Chevron-up",
+      "font_class": "Chevron-up",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "30175727",
+      "name": "Chevron-Right",
+      "font_class": "Chevron-Right",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "30175730",
+      "name": "CloseDefault",
+      "font_class": "CloseDefault",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "30175743",
+      "name": "Chevron-Left",
+      "font_class": "Chevron-Left",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "162780",
+      "name": "加",
+      "font_class": "jia",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "4539368",
+      "name": "二维码",
+      "font_class": "erweima",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "12331650",
+      "name": "导入",
+      "font_class": "daoru",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "5388069",
+      "name": "眼睛_显示_o",
+      "font_class": "yanjing_xianshi_o",
+      "unicode": "ebcc",
+      "unicode_decimal": 60364
+    },
+    {
+      "icon_id": "30537795",
+      "name": "caret-down",
+      "font_class": "caret-down",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "30537796",
+      "name": "点赞(2) 1",
+      "font_class": "a-dianzan21",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "30537800",
+      "name": "阅读 1",
+      "font_class": "a-yuedu11",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "30537802",
+      "name": "微博(1) 1",
+      "font_class": "a-weibo11",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "30537805",
+      "name": "微信公众号 1",
+      "font_class": "a-weixingongzhonghao1",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "30537806",
+      "name": "Import",
+      "font_class": "Import",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "30537807",
+      "name": "search",
+      "font_class": "search",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "30537808",
+      "name": "logo",
+      "font_class": "logo",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "30538674",
+      "name": "File",
+      "font_class": "File",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "1250",
+      "name": "其它",
+      "font_class": "qita",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    }
+  ]
+}
